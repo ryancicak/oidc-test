@@ -1,0 +1,24 @@
+bundle:
+  name: oidc_deploy_test
+
+targets:
+  dev:
+    default: true
+    mode: development
+    workspace:
+      # VALUE 1: your cicaktest workspace URL
+      host: https://dbc-5289ecdb-d516.cloud.databricks.com
+
+resources:
+  jobs:
+    oidc_test_job:
+      name: oidc-deploy-test-job
+      tasks:
+        - task_key: hello
+          notebook_task:
+            notebook_path: ./src/hello.py
+          environment_key: serverless_env
+      environments:
+        - environment_key: serverless_env
+          spec:
+            client: "2"
