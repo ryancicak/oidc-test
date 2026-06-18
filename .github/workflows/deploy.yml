@@ -1,0 +1,24 @@
+name: deploy-bundle
+
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      DATABRICKS_AUTH_TYPE: github-oidc
+      DATABRICKS_HOST: https://dbc-5289ecdb-d516.cloud.databricks.com
+      DATABRICKS_CLIENT_ID: 231a8d76-9ed6-4249-a42e-09bf542635b1
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: databricks/setup-cli@main
+      - run: databricks current-user me
+      - run: databricks bundle deploy -t dev
